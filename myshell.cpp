@@ -15,17 +15,17 @@ int main(int argc, char const *argv[])
         }
     }
     while(true) {
+        Param param;
         cout << "$$$ ";
         getline(cin, input);
         if(input == "exit") {
             break;
         } else {
-            Param param;
-            parseTokens((char*)input.c_str(), &param);
+            parseTokens(input.data(), &param);
         }
 
         if(isDebugOn) {
-            // printParams();
+            param.printParams();
         }
     }
 

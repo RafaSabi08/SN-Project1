@@ -20,61 +20,66 @@ Param::Param()
 	inputRedirect = outputRedirect = NULL;
 	background = 0;
 	argumentCount = 0;
+	argumentVector[0] = NULL;
 }
 
 void Param::addArgument (char* newArgument)
 {
-	// finish this
+	if(argumentCount >= MAXARGS) {
+		cerr << "Error: Too many arguments." << endl;
+		return;
+	}
+	argumentVector[argumentCount] = newArgument;
+	argumentCount++;
 }
 
 char** Param::getArguments()
 {
-	// finish this
-	return NULL;
+	return argumentVector;
 }
 
 void Param::setInputRedirect(char *newInputRedirect)
 {
-	//finish this
+	inputRedirect = newInputRedirect;
 }
 
 void Param::setOutputRedirect(char *newOutputRedirect)
 {
-	//finish this
+	outputRedirect = newOutputRedirect;
 }
 		
 void Param::setBackground(int newBackground)
 {
-	//finish this
+	background = newBackground;
 }
 
 char* Param::getInputRedirect()
 {
 	//finish this
-	return NULL;
+	return inputRedirect;
 }
 		
 		
 char* Param::getOutputRedirect()
 {
 	//finish this
-	return NULL;
+	return outputRedirect;
 }
 		
 int Param::getBackground()
 {
 	// finish this
-    return 0;
+    return background;
 }
 
 
 void Param::printParams() {
 	cout << "InputRedirect: [" 
-	     << (inputRedirect != NULL) ? inputRedirect : "NULL";
+	     << ((inputRedirect != NULL) ? inputRedirect : "NULL");
 	cout << "]" 
 	     << endl 
 		 <<	"OutputRedirect: [" 
-		 << (outputRedirect != NULL) ? outputRedirect : "NULL";
+		 << ((outputRedirect != NULL) ? outputRedirect : "NULL");
 	cout << "]" 
 	     << endl 
 		 << "Background: [" 

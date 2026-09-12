@@ -1,0 +1,34 @@
+Myshell - PART 1
+
+About - 
+
+    This programs implements PART 1 of a simplified shell. It read the commands inputed by the user,
+parse into individual tokens using the strtok(), check for special characters as "<,>,&" and handle them.
+After that it stores inside an Param object.
+
+How to Compile Using Makefile -
+
+    To compile and be able to use the program you should use the command:
+        make
+    It will generate the executable file.
+    
+    To cleanup and remove the compiled program use:
+        make clean
+    It will cleanup the executable file.
+
+How to Use the Program -
+
+    Run the myshell normally with:
+        ./myshell
+    It will start the program normally without the Debug mode
+
+    Run the myshell in debug mode with: 
+        ./myshell -Debug
+    It will start the progam with debug mode activated. When it is activated
+    it will print the contents stored in the param object.
+
+    The myshell program will automatically display:
+        $$$
+    Meaning the program is working correctly.
+
+    Type and enter "exit" to terminate the program.
