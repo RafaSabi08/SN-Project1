@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <unistd.h>
+#include <sys/wait.h>
 #include "param.hpp"
 #include "parse.hpp"
 
@@ -37,6 +39,26 @@ int main(int argc, char const *argv[])
 
         if (isDebugOn) {
             param.printParams();
+        }
+
+        char **args = param.getArguments();
+
+        if (args[0] == NULL) {
+            continue;  // usuario so apertou Enter
+        }
+
+        pid_t pid = fork();
+        fflush(stdout);
+
+        if (pid == 0) {
+            execvp(args[0], args);
+            fprintf(stderr, "myshell: comando nao encontrado: %s\n", args[0]);
+            exit(1);
+        } else if (pid > 0) {
+            int status;
+            waitpid(pid, &status, 0);
+        } else {
+            perror("myshell: fork falhou");
         }
     }
 
