@@ -55,6 +55,19 @@ int main(int argc, char const *argv[])
         fflush(stdout);
 
         if (pid == 0) {
+            if (param.getInputRedirect() != NULL) {
+                if (freopen(param.getInputRedirect(), "r", stdin) == NULL) {
+                    fprintf(stderr, "myshell: nao foi possivel abrir '%s' para leitura\n", param.getInputRedirect());
+                    exit(1);
+                }
+            }
+            if (param.getOutputRedirect() != NULL) {
+                if (freopen(param.getOutputRedirect(), "w", stdout) == NULL) {
+                    fprintf(stderr, "myshell: nao foi possivel abrir '%s' para escrita\n", param.getOutputRedirect());
+                    exit(1);
+                }
+            }
+
             execvp(args[0], args);
             fprintf(stderr, "myshell: comando nao encontrado: %s\n", args[0]);
             exit(1);
