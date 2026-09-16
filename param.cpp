@@ -31,6 +31,9 @@ void Param::addArgument (char* newArgument)
 	}
 	argumentVector[argumentCount] = newArgument;
 	argumentCount++;
+	if (argumentCount < MAXARGS) {
+		argumentVector[argumentCount] = NULL;  // marca o fim da lista, igual '\0' marca o fim de uma string
+	}
 }
 
 char** Param::getArguments()
