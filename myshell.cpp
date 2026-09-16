@@ -6,6 +6,8 @@
 #include "param.hpp"
 #include "parse.hpp"
 
+#define MAX_BACKGROUND 100
+
 int main(int argc, char const *argv[])
 {
     bool isDebugOn = false;
@@ -15,6 +17,9 @@ int main(int argc, char const *argv[])
 
     char *line = NULL;
     size_t bufferSize = 0;
+
+    pid_t backgroundPids[MAX_BACKGROUND];
+    int backgroundCount = 0;
 
     while (true) {
         Param param;
@@ -42,9 +47,8 @@ int main(int argc, char const *argv[])
         }
 
         char **args = param.getArguments();
-
         if (args[0] == NULL) {
-            continue;  // usuario so apertou Enter
+            continue;
         }
 
         pid_t pid = fork();
@@ -55,11 +59,23 @@ int main(int argc, char const *argv[])
             fprintf(stderr, "myshell: comando nao encontrado: %s\n", args[0]);
             exit(1);
         } else if (pid > 0) {
-            int status;
-            waitpid(pid, &status, 0);
+            if (param.getBackground()) {
+                if (backgroundCount < MAX_BACKGROUND) {
+                    backgroundPids[backgroundCount] = pid;
+                    backgroundCount++;
+                }
+                printf("[background pid %d]\n", pid);
+            } else {
+                int status;
+                waitpid(pid, &status, 0);
+            }
         } else {
             perror("myshell: fork falhou");
         }
+    }
+
+    for (int i = 0; i < backgroundCount; i++) {
+        waitpid(backgroundPids[i], NULL, 0);
     }
 
     free(line);
